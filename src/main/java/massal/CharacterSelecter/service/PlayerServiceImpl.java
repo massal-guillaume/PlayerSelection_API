@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
 
     @Autowired
-    private Playerrepo prepo;
+    private final Playerrepo prepo;
 
 
     public PlayerServiceImpl(Playerrepo prepo) {
@@ -22,11 +23,16 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public void save(PlayerRegistrationDTO playerRegistrationDTO) {
+    public Player save(PlayerRegistrationDTO playerRegistrationDTO) throws Exception {
         Player player = new Player( playerRegistrationDTO.getUsername(),
                                     playerRegistrationDTO.getPoste(),
                                     playerRegistrationDTO.getChampion_pool());
-        prepo.save(player);
+        try {
+            prepo.save(player);
+        }catch (Exception e){
+           throw e;
+        }
+        return player;
     }
 
     @Override
@@ -35,16 +41,53 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public void addChampion(Long id, String name) {
+    public String addChampion(Long id, String name) {
         Champion champion = new Champion(name);
-        Player player = this.prepo.findById(id).get();
-        player.getChampion_pool().add(champion);
-        prepo.save(player);
+        if(this.prepo.findById(id).isPresent()){
+            Player player = this.prepo.findById(id).get();
+            player.getChampion_pool().add(champion);
+            prepo.save(player);
+            return "Champion added";
+        }
+        return "Player not exist with id: "+ id;
     }
 
     @Override
-    public void deleteplayer(Long id){
-        prepo.deleteById(id);
+    public String updateplayer(Long id,PlayerRegistrationDTO playerRegistrationDTO){
+        Player updatedplayer;
+        if(prepo.findById(id).isPresent()){
+
+            updatedplayer = prepo.findById(id).get();
+
+            updatedplayer.setPoste(playerRegistrationDTO.getPoste());
+            updatedplayer.setUsername(playerRegistrationDTO.getUsername());
+            updatedplayer.setChampion_pool(playerRegistrationDTO.getChampion_pool());
+
+            prepo.save(updatedplayer);
+
+            return "Player Updated";
+        }else  return "Player not exist with id: "+ id;
+
+
+    }
+    @Override
+    public Optional<Player> findbyid(Long id){
+
+        return this.prepo.findById(id);
+
+    }
+
+
+
+    @Override
+    public String deleteplayer(Long id){
+        if(prepo.findById(id).isPresent()){
+            prepo.deleteById(id);
+            return "successful deletion";
+        }else {
+
+            return "Player not exist with id: "+ id;
+        }
     }
 
 }

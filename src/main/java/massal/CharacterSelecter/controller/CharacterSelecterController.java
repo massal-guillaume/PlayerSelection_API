@@ -3,9 +3,7 @@ package massal.CharacterSelecter.controller;
 import massal.CharacterSelecter.DTO.PlayerRegistrationDTO;
 import massal.CharacterSelecter.model.Player;
 import massal.CharacterSelecter.service.PlayerService;
-import massal.CharacterSelecter.service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 public class CharacterSelecterController {
 
     @Autowired
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
     public CharacterSelecterController(PlayerService playerService) {
         this.playerService = playerService;
@@ -28,23 +26,24 @@ public class CharacterSelecterController {
     }
 
     @PutMapping("/CharacterSelector/updateplayer/addchampion/{id}/{name}")
-    public String updateplayer(@PathVariable Long id, @PathVariable String name){
-        this.playerService.addChampion(id,name);
-        System.out.println(name);
-        return "Champion added";
+    public String addchampion(@PathVariable Long id, @PathVariable String name){
+       return  this.playerService.addChampion(id,name);
+    }
 
+    @PutMapping("/CharacterSelector/updateplayer/{id}")
+    public String updateplayer(@PathVariable Long id,@RequestBody PlayerRegistrationDTO playerRegistrationDTO){
+       return  this.playerService.updateplayer(id,playerRegistrationDTO);
     }
 
 
     @DeleteMapping("/CharacterSelector/deleteplayer/{id}")
     public String deleteplayerbyid(@PathVariable("id") Long id){
-        playerService.deleteplayer(id);
-        return "successful deletion";
+        return playerService.deleteplayer(id);
     }
 
 
     @PostMapping("/CharacterSelector/saveplayer")
-    public String registerPlayer(@RequestBody PlayerRegistrationDTO playerRegistrationDTO){
+    public String registerPlayer(@RequestBody PlayerRegistrationDTO playerRegistrationDTO) throws Exception{
         playerService.save(playerRegistrationDTO);
         return "save succeeded";
    }

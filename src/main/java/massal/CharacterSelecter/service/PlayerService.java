@@ -4,15 +4,20 @@ import massal.CharacterSelecter.DTO.PlayerRegistrationDTO;
 import massal.CharacterSelecter.model.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerService {
 
-    void save(PlayerRegistrationDTO playerRegistrationDTO);
-    public List<Player> getplayer();
+    Player save(PlayerRegistrationDTO playerRegistrationDTO) throws Exception;
+    List<Player> getplayer();
 
-    void deleteplayer(Long id);
+    String deleteplayer(Long id);
 
-    public void addChampion(Long id, String name);
+    String addChampion(Long id, String name);
 
+    String updateplayer(Long id,PlayerRegistrationDTO playerRegistrationDTO);
+
+
+    Optional<Player> findbyid(Long id);
 
 }
