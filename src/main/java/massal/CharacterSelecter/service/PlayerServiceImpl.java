@@ -40,6 +40,22 @@ public class PlayerServiceImpl implements PlayerService{
         return prepo.findAll();
     }
 
+
+    @Override
+    public List<Champion> getflexpick(String username1,String username2) throws Exception{
+
+        List<Player> list = prepo.findAll();
+        Optional<Player> p1 = Optional.of(list.stream().filter(s -> s.getUsername().equals(username1)).findFirst().get());
+        Optional<Player> p2 = Optional.of(list.stream().filter(s -> s.getUsername().equals(username2)).findFirst().get());
+        if(p1.isPresent() && p2.isPresent()){
+           List<Champion> flexpick = p1.get().getChampion_pool();
+           flexpick.retainAll(p2.get().getChampion_pool());
+            if(flexpick.isEmpty()) throw new Exception("Il n'y a aucun champions en commun entre les deux joueurs");
+            else return flexpick;
+        }else throw new Exception("Un des deux joueurs n'est pas present dans la base de donées");
+
+    }
+
     @Override
     public String addChampion(Long id, String name) {
         Champion champion = new Champion(name);

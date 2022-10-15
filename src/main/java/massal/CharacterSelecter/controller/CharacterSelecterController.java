@@ -1,6 +1,7 @@
 package massal.CharacterSelecter.controller;
 
 import massal.CharacterSelecter.DTO.PlayerRegistrationDTO;
+import massal.CharacterSelecter.model.Champion;
 import massal.CharacterSelecter.model.Player;
 import massal.CharacterSelecter.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +49,15 @@ public class CharacterSelecterController {
         return "save succeeded";
    }
 
+   @GetMapping("/CharacterSelector/getflexpick/{username1}/{username2")
+    public List<Champion> getflexpick(@PathVariable String username1, @PathVariable String username2) {
 
+       try {
+           return this.playerService.getflexpick(username1, username2);
+       } catch (Exception e) {
+           System.out.println(e.getMessage());
+           throw new RuntimeException(e);
+       }
 
-
-
-
-
-
+        }
 }

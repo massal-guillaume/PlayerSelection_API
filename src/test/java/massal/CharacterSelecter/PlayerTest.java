@@ -90,8 +90,29 @@ public class PlayerTest {
 
 
    }
+/*
+   @Test
+    public void testgetflexpick(){
+       List<Champion> champion_pool1 = new ArrayList<>();
+       List<Champion> champion_pool2 = new ArrayList<>();
+       Champion c1 = new Champion("Aatrox");
+       Champion c2 = new Champion("Thresh");
+       champion_pool1.add(c1);
+       champion_pool1.add(c2);
+       champion_pool2.add(c1);
+       Player player1 = new Player("test_flexpick1","test_poste1",champion_pool1);
+       Player player2 = new Player("test_flexpick2","test_poste2",champion_pool2);
+       Long id1 = this.playerrepo.save(player1).getId();
+       Long id2 = this.playerrepo.save(player2).getId();
 
-
+       List<Player> list = playerrepo.findAll();
+       Optional<Player> p1 = Optional.of(list.stream().filter(s -> s.getUsername().equals("test_flexpick1")).findFirst().get());
+       Optional<Player> p2 = Optional.of(list.stream().filter(s -> s.getUsername().equals("test_flexpick2")).findFirst().get());
+       List<Champion> flexpick = p1.get().getChampion_pool();
+       flexpick.retainAll(p2.get().getChampion_pool());
+       assertEquals(flexpick.get(0).getName(),"Aatrox");
+    }
+*/
 
 
 

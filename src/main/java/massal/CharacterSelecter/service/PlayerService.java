@@ -1,6 +1,7 @@
 package massal.CharacterSelecter.service;
 
 import massal.CharacterSelecter.DTO.PlayerRegistrationDTO;
+import massal.CharacterSelecter.model.Champion;
 import massal.CharacterSelecter.model.Player;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface PlayerService {
 
 
     Optional<Player> findbyid(Long id);
+
+    List<Champion> getflexpick(String username1, String username2) throws Exception;
 
 }
