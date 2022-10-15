@@ -14,4 +14,4 @@ represente ici par une collection, qui perme de savoir quel champions il peut jo
 J'ai mis en ligne l'API en la configurant sur mon VPS
 Je l'utilise et l'update quotidiennement selon mes besoins
 J'ai egalement realise plusieurs Test JUnit que je compte aussi mettre à jour regulierement pour etre sur 
-de pouvoir facile ajouter des modification à ce projet.
+de pouvoir facilement ajouter des modification à ce projet.
