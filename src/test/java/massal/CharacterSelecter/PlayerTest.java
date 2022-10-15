@@ -3,10 +3,12 @@ package massal.CharacterSelecter;
 import massal.CharacterSelecter.model.Champion;
 import massal.CharacterSelecter.model.Player;
 import massal.CharacterSelecter.repo.Playerrepo;
+import massal.CharacterSelecter.service.PlayerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,6 @@ public class PlayerTest {
     private Playerrepo playerrepo;
 
 
-    @Test
-    public void testfindbyid(){
-        Optional<Player> player = playerrepo.findById(Long.valueOf(1));
-        assertEquals(player.get().getId(),Long.valueOf(1));
-    }
 
     @Test
     public void testsaveplayernotnull(){
@@ -46,6 +43,14 @@ public class PlayerTest {
         assertEquals(player,playersaved);
     }
 
+    @Test
+    public void testfindbyid(){
+        List<Champion> champion_pool = new ArrayList<Champion>();
+        Player player = new Player("test_username","test_poste",champion_pool);
+        Long id = playerrepo.save(player).getId();
+        Optional<Player> playeradded = playerrepo.findById(id);
+        assertEquals(playeradded.get().getId(),id);
+    }
 
    @Test
     public void testupdateplayer(){
@@ -90,13 +95,13 @@ public class PlayerTest {
 
 
    }
-/*
+
    @Test
     public void testgetflexpick(){
        List<Champion> champion_pool1 = new ArrayList<>();
        List<Champion> champion_pool2 = new ArrayList<>();
-       Champion c1 = new Champion("Aatrox");
-       Champion c2 = new Champion("Thresh");
+       Champion c1 = new Champion("aatrox");
+       Champion c2 = new Champion("thresh");
        champion_pool1.add(c1);
        champion_pool1.add(c2);
        champion_pool2.add(c1);
@@ -110,9 +115,9 @@ public class PlayerTest {
        Optional<Player> p2 = Optional.of(list.stream().filter(s -> s.getUsername().equals("test_flexpick2")).findFirst().get());
        List<Champion> flexpick = p1.get().getChampion_pool();
        flexpick.retainAll(p2.get().getChampion_pool());
-       assertEquals(flexpick.get(0).getName(),"Aatrox");
+       assertEquals(flexpick.get(0).getName(),"aatrox");
     }
-*/
+
 
 
 
