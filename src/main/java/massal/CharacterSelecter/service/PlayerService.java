@@ -23,4 +23,6 @@ public interface PlayerService {
 
     List<Champion> getflexpick(String username1, String username2) throws Exception;
 
+    List<Player> getchampbyplayer(String champName);
+
 }

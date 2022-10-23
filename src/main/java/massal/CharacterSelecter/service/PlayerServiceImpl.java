@@ -7,6 +7,7 @@ import massal.CharacterSelecter.repo.Playerrepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,21 @@ public class PlayerServiceImpl implements PlayerService{
         return prepo.findAll();
     }
 
+    @Override
+    public List<Player> getchampbyplayer(String champName){
+
+        List<Player> lplayer = this.getplayer();
+        List<Player> lanswer = new ArrayList<>();
+        for(Player player : lplayer){
+            for(Champion c : player.getChampion_pool()) {
+                if (c.getName().equals(champName)) {
+                    lanswer.add(player);
+                    break;
+                }
+            }
+        }
+        return lanswer;
+    }
 
     @Override
     public List<Champion> getflexpick(String username1,String username2) throws Exception{

@@ -49,6 +49,11 @@ public class CharacterSelecterController {
         return "save succeeded";
    }
 
+   @GetMapping("/CharacterSelector/getchampbyplayer")
+   public List<Player> getchampbyplayer(@PathVariable String champName){
+        return this.playerService.getchampbyplayer(champName);
+   }
+
    @GetMapping("/CharacterSelector/getflexpick/{username1}/{username2")
     public List<Champion> getflexpick(@PathVariable String username1, @PathVariable String username2) {
 
